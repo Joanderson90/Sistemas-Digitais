@@ -7,11 +7,11 @@
 .equ sys_open, 5
 .equ sys_map, 192
 .equ nano_sleep, 162
-.equ level, 0x034
+.equ level, 34
 
 .global _start
 
-.macro nanoSleep time
+.macro nanoSleep
         LDR R0, \=time
         LDR R1, \=time
         MOV R7, #nano_sleep
