@@ -81,6 +81,7 @@
         GPIODirectionOut pinD4
         GPIODirectionOut pinEN
         GPIODirectionOut pinRS
+        .ltorg
        
 .endm
 
@@ -90,6 +91,7 @@
         GPIOTurnOn pinEN
         nanoSleep 
         GPIOTurnOff pinEN
+        .ltorg
 .endm
 
 .macro  FunctionSet
@@ -99,6 +101,7 @@
         GPIOTurnOn pinD5
         GPIOTurnOff pinD4
         SetEnable
+        .ltorg
 .endm
 
 
@@ -116,6 +119,7 @@
         GPIOTurnOn pinD5
         GPIOTurnOn pinD4
         SetEnable
+        .ltorg
 .endm
 
 
@@ -132,7 +136,8 @@
         GPIOTurnOff pinD6
         GPIOTurnOff pinD5
         GPIOTurnOff pinD4
-        SetEnable	
+        SetEnable
+        .ltorg	
 .endm
 
 .macro  ClearDisplay
@@ -149,6 +154,7 @@
         GPIOTurnOff pinD5
         GPIOTurnOn pinD4
         SetEnable
+        .ltorg
 .endm
 
 .macro  EntrySetMode
@@ -165,11 +171,13 @@
         GPIOTurnOn pinD5
         GPIOTurnOff pinD4
         SetEnable
+        .ltorg
 
 .endm
 
 
 .macro WriteNumber number
+        push{R9}
 
         MOV R9, \number
 
@@ -195,6 +203,9 @@
         SetValueGPIO pinD4, R1
 
         SetEnable
+
+        pop {R9}
+        .ltorg
 	
 .endm
 
@@ -207,6 +218,7 @@
 
         SetEnable
         GPIOTurnOn pinRS
+        .ltorg
 .endm
 
 .macro WriteNumber9
@@ -218,6 +230,7 @@
         GPIOTurnOff pinD5
         GPIOTurnOn pinD4
         SetEnable
+        .ltorg
 	
 .endm
 
@@ -237,8 +250,7 @@
 
 .global _start
 
-
-_start:
+.macro MapAddressGPIO
         @ opening the file
 	LDR R0, = fileName
 	MOV R1, #0x1b0
@@ -259,6 +271,12 @@ _start:
 	SVC 0
 	MOVS R8, R0
 
+
+.endm
+
+
+_start:
+        MapAddressGPIO
         InitDisplay
         WriteNumber #9
 
