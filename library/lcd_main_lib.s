@@ -350,7 +350,7 @@ init_display:
   FunctionSet
   OnDisplay
   EntrySetMode
-  pop {lr}
+  pop {pc}
   
 
 @ Definição das variáveis
