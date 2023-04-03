@@ -133,7 +133,6 @@ GetPinValue:
 	pop {pc}
 
 
-
 .data
 fileName: .asciz "/dev/mem"
 gpioaddr: .word 0x20200
